@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.models import Group
-from django.views.generic import CreateView, ListView, TemplateView
+from django.views.generic import CreateView, ListView, TemplateView, DetailView
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import CustomUserCreationForm
+from .models import CustomUser
 
 
 class HomepageView(TemplateView):
@@ -32,3 +33,10 @@ class LoginView(LoginView):
         if self.request.user.is_authenticated:
             return redirect('homepage')
         return self.render_to_response(self.get_context_data())
+
+
+class ProfileView(DetailView):
+    model = CustomUser
+    template_name = 'base.html'
+    context_object_name = 'profile'
+
